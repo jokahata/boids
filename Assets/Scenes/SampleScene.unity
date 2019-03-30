@@ -201,7 +201,7 @@ PrefabInstance:
     - target: {fileID: 19132532689005547, guid: d0cfb7dfbc09c9a429b9144430421786,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.48
+      value: -2.11
       objectReference: {fileID: 0}
     - target: {fileID: 19132532689005547, guid: d0cfb7dfbc09c9a429b9144430421786,
         type: 3}
@@ -253,6 +253,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1834759809}
+    - target: {fileID: 3853329756871092469, guid: d0cfb7dfbc09c9a429b9144430421786,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0cfb7dfbc09c9a429b9144430421786, type: 3}
 --- !u!4 &404121723 stripped
@@ -962,6 +967,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boid (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 19132532689005536, guid: d0cfb7dfbc09c9a429b9144430421786,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 19132532689005547, guid: d0cfb7dfbc09c9a429b9144430421786,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1042,6 +1052,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boid (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 19132532689005536, guid: d0cfb7dfbc09c9a429b9144430421786,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 19132532689005547, guid: d0cfb7dfbc09c9a429b9144430421786,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1121,6 +1136,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Boid (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 19132532689005536, guid: d0cfb7dfbc09c9a429b9144430421786,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19132532689005547, guid: d0cfb7dfbc09c9a429b9144430421786,
         type: 3}
@@ -1588,5 +1608,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 479690865}
+    - target: {fileID: 3853329756871092469, guid: d0cfb7dfbc09c9a429b9144430421786,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0cfb7dfbc09c9a429b9144430421786, type: 3}

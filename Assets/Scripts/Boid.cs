@@ -12,7 +12,6 @@ public class Boid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Test");
         rigidbody2d = GetComponent<Rigidbody2D>();
         collisionDetector = GetComponentInChildren<CollisionDetector>();
     }
@@ -21,10 +20,14 @@ public class Boid : MonoBehaviour
     void Update()
     {
         // Rotate the body
-        Debug.Log("Debug says: " + collisionDetector.IsColliding);
         if (collisionDetector.IsColliding)
         {
-            rigidbody2d.MoveRotation(rigidbody2d.rotation + 1);
+            int rotation = -1;
+            if (collisionDetector.Direction < 0)
+            {
+                rotation = 1;
+            }
+            rigidbody2d.MoveRotation(rigidbody2d.rotation + rotation);
         }
 
         // Move forward in direction currently facing
