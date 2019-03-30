@@ -17,6 +17,11 @@ public class CollisionDetector : MonoBehaviour
         IsColliding = true;
     }
 
+    void onTriggerStay2D(Collider2D other)
+    {
+        IsColliding = true;
+    }
+
     void OnTriggerExit2D(Collider2D other)
     {
         IsColliding = false;
