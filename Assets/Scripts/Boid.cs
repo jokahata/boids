@@ -6,12 +6,16 @@ public class Boid : MonoBehaviour
 {
     [SerializeField]
     private float speed = 2;
+
+    [SerializeField]
+    private float boidMassCenterScale = .01f;
+
     private Rigidbody2D rigidbody2d;
     private CollisionDetector collisionDetector;
 
+
     private BoidController boidController;
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -20,27 +24,23 @@ public class Boid : MonoBehaviour
         boidController = GameObject.Find("Boids").GetComponent<BoidController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Rotate the body
-        /*
-        if (collisionDetector.IsColliding)
+        // TODO: Rotate the body
+        Vector2 newPosition = rigidbody2d.position + getVectorTowardBoidMassCenter();
+        rigidbody2d.MovePosition(newPosition);
+    }
+
+    private Vector2 getVectorTowardBoidMassCenter()
+    {
+        if (boidController == null)
         {
-            int rotation = -1;
-            if (collisionDetector.Direction < 0)
-            {
-                rotation = 1;
-            }
-            rigidbody2d.MoveRotation(rigidbody2d.rotation + rotation);
+            Debug.LogError("boidController missing");
+            return new Vector2();
         }
 
-        // Move forward in direction currently facing
-        rigidbody2d.MovePosition(rigidbody2d.transform.position + (transform.up * Time.deltaTime * speed));
-        */
-        Vector2 boidCenter = boidController.BoidsCenter;
-        Vector2 newLocation = (boidCenter - rigidbody2d.position) / 100.0f;
-        Debug.Log("boidCenter: " + boidCenter + " " + rigidbody2d.position + " " + (boidCenter - rigidbody2d.position) + " " + newLocation);
-        rigidbody2d.MovePosition(rigidbody2d.position + newLocation);
+        Vector2 boidsCenter = boidController.BoidsCenter;
+        Vector2 stepTowardsCenter = (boidsCenter - rigidbody2d.position) * boidMassCenterScale;
+        return stepTowardsCenter;
     }
 }
