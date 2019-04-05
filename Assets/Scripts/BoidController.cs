@@ -11,21 +11,34 @@ public class BoidController : MonoBehaviour
         private set;
     }
 
+    public List<Transform> Boids
+    {
+        get;
+        private set;
+    }
+
+    private int numBoids;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        numBoids = 0;
+        Boids = new List<Transform>();
+        // TODO: Probably not a good idea to assume that all children are boids
+        foreach (Transform child in transform)
+        {
+            Boids.Add(child);
+            numBoids += 1;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        int numBoids = 0;
         Vector2 position = new Vector2();
-        foreach (Transform child in transform)
+        foreach (Transform boid in Boids)
         {
-            numBoids += 1;
-            position += new Vector2(child.position.x, child.position.y);
+            position += new Vector2(boid.position.x, boid.position.y);
         }
         BoidsCenter = position / numBoids;
     }
