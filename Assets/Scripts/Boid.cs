@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 2;
 
     [SerializeField]
     private float repulsionDistance = 3f;
 
     private float translationScale = .01f;
+
+    private float speed = 0.05f;
 
     private Rigidbody2D rigidbody2d;
     private CollisionDetector collisionDetector;
@@ -23,7 +23,6 @@ public class Boid : MonoBehaviour
         collisionDetector = GetComponentInChildren<CollisionDetector>();
         // TODO: Fix this
         boidController = GameObject.Find("Boids").GetComponent<BoidController>();
-
         if (boidController == null)
         {
             Debug.LogError("boidController missing");
@@ -32,8 +31,19 @@ public class Boid : MonoBehaviour
 
     void Update()
     {
-        // TODO: Rotate the body
-        Vector2 newPosition = rigidbody2d.position + getVectorTowardBoidMassCenter() + getRepulsionFromNeighbors();
+        Vector2 currentPosition = rigidbody2d.transform.position;
+        Vector2 newTargetPosition = (getVectorTowardBoidMassCenter() + getRepulsionFromNeighbors()) - currentPosition;
+        newTargetPosition.Normalize();
+        Debug.DrawRay(transform.position, getVectorTowardBoidMassCenter().normalized, Color.red);
+        Debug.DrawRay(transform.position, getRepulsionFromNeighbors().normalized, Color.blue);
+        Debug.DrawRay(transform.position, newTargetPosition, Color.green);
+
+        float angle = Mathf.Atan2(newTargetPosition.y, newTargetPosition.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 2f);
+
+        Vector2 direction = transform.up;
+        Vector2 newPosition = rigidbody2d.position + direction * 0.1f;
         rigidbody2d.MovePosition(newPosition);
     }
 
