@@ -10,12 +10,18 @@ public class Boid : MonoBehaviour
         get { return rigidbody2d.transform.position; }
     }
 
+    public Vector2 Velocity
+    {
+        get;
+        private set;
+    }
+
     [SerializeField]
     private float repulsionDistance = 3f;
 
     private float translationScale = .01f;
 
-    private float speed = 0.05f;
+    private float speed = 0.1f;
 
     private Rigidbody2D rigidbody2d;
     private CollisionDetector collisionDetector;
@@ -58,8 +64,8 @@ public class Boid : MonoBehaviour
         Quaternion q = Quaternion.AngleAxis(targetAngle, axis);
         transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 2f);
 
-        Vector2 direction = transform.up;
-        Vector2 newPosition = rigidbody2d.position + direction * 0.1f;
+        Velocity = transform.up * speed;
+        Vector2 newPosition = rigidbody2d.position + Velocity;
         rigidbody2d.MovePosition(newPosition);
     }
 
