@@ -5,6 +5,11 @@ using UnityEngine;
 public class Boid : MonoBehaviour
 {
 
+    public Vector2 Position
+    {
+        get { return rigidbody2d.transform.position; }
+    }
+
     [SerializeField]
     private float repulsionDistance = 3f;
 
@@ -78,13 +83,12 @@ public class Boid : MonoBehaviour
             return repulsionVector; 
         }
 
-        Transform transform = rigidbody2d.transform;
-        foreach (Transform boid in boidController.Boids)
+        Vector2 position = rigidbody2d.transform.position;
+        foreach (Boid boid in boidController.Boids)
         {
-            if (boid != transform)
+            if (boid != this)
             {
-                Vector3 positionDifference = transform.position - boid.position;
-                positionDifference.z = 0;
+                Vector2 positionDifference = position - boid.Position;
                 float distance = Vector3.Magnitude(positionDifference);
                 if (distance < repulsionDistance)
                 {

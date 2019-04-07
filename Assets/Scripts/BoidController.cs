@@ -11,7 +11,7 @@ public class BoidController : MonoBehaviour
         private set;
     }
 
-    public List<Transform> Boids
+    public List<Boid> Boids
     {
         get;
         private set;
@@ -23,11 +23,11 @@ public class BoidController : MonoBehaviour
     void Start()
     {
         numBoids = 0;
-        Boids = new List<Transform>();
+        Boids = new List<Boid>();
         // TODO: Probably not a good idea to assume that all children are boids
         foreach (Transform child in transform)
         {
-            Boids.Add(child);
+            Boids.Add(child.GetComponent<Boid>());
             numBoids += 1;
         }
     }
@@ -36,9 +36,9 @@ public class BoidController : MonoBehaviour
     void Update()
     {
         Vector2 position = new Vector2();
-        foreach (Transform boid in Boids)
+        foreach (Boid boid in Boids)
         {
-            position += new Vector2(boid.position.x, boid.position.y);
+            position += new Vector2(boid.Position.x, boid.Position.y);
         }
         BoidsCenter = position / numBoids;
     }
