@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BoidController : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject boidsPrefab;
 
     public Vector2 BoidsCenter
     {
@@ -22,6 +24,11 @@ public class BoidController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        updateBoidList();
+    }
+    
+    private void updateBoidList()
+    {
         numBoids = 0;
         Boids = new List<Boid>();
         // TODO: Probably not a good idea to assume that all children are boids
@@ -35,11 +42,26 @@ public class BoidController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        updateBoidsCenter();
+        spawnOnClick();
+    }
+
+    private void updateBoidsCenter()
+    {
         Vector2 position = new Vector2();
         foreach (Boid boid in Boids)
         {
             position += new Vector2(boid.Position.x, boid.Position.y);
         }
         BoidsCenter = position / numBoids;
+    }
+
+    private void spawnOnClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(boidsPrefab, transform);
+            updateBoidList();
+        }
     }
 }
