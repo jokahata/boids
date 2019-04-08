@@ -43,7 +43,7 @@ public class Boid : MonoBehaviour
     void Update()
     {
         Vector2 currentPosition = rigidbody2d.transform.position;
-        Vector2 targetDirection = (getVectorTowardBoidMassCenter() + getRepulsionFromNeighbors()) - currentPosition;
+        Vector2 targetDirection = (getVectorTowardBoidMassCenter() + getRepulsionFromNeighbors() + getNeighborsVelocity()) - currentPosition;
         targetDirection.Normalize();
 
         Debug.DrawRay(transform.position, getVectorTowardBoidMassCenter().normalized, Color.red);
@@ -104,5 +104,21 @@ public class Boid : MonoBehaviour
         }
 
         return repulsionVector * translationScale;
+    }
+
+    private Vector2 getNeighborsVelocity()
+    {
+        Vector2 perceivedVelocity = new Vector2();
+        foreach (Boid boid in boidController.Boids)
+        {
+            if (boid != this)
+            {
+                perceivedVelocity += boid.Velocity * 0.01f; 
+            }
+        }
+        int numBoids = boidController.Boids.Count - 1;
+        perceivedVelocity /= numBoids;
+
+        return perceivedVelocity;
     }
 }
