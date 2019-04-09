@@ -24,19 +24,25 @@ public class BoidController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        numBoids = 0;
         updateBoidList();
     }
     
     private void updateBoidList()
     {
-        numBoids = 0;
         Boids = new List<Boid>();
         // TODO: Probably not a good idea to assume that all children are boids
         foreach (Transform child in transform)
         {
-            Boids.Add(child.GetComponent<Boid>());
-            numBoids += 1;
+            addToBoidList(child.GetComponent<Boid>());
         }
+    }
+
+    private void addToBoidList(Boid boid)
+    {
+        if (boid == null) return;
+        Boids.Add(boid);
+        numBoids += 1;
     }
 
     // Update is called once per frame
@@ -60,8 +66,27 @@ public class BoidController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(boidsPrefab, transform);
-            updateBoidList();
+            createNewBoid(getMousePositionInLocal());
         }
+    }
+
+    private Vector2 getMousePositionInLocal()
+    {
+        Vector3 worldPoint = getMousePositionInWorld();
+        Vector3 localPosition = transform.InverseTransformVector(worldPoint);
+        localPosition.z = -5;
+        return localPosition;
+    }
+
+    private Vector3 getMousePositionInWorld()
+    {
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    private void createNewBoid(Vector3 localPosition)
+    {
+        GameObject newBoid = Instantiate(boidsPrefab, transform);
+        newBoid.transform.position = localPosition;
+        addToBoidList(newBoid.GetComponent<Boid>());
     }
 }
