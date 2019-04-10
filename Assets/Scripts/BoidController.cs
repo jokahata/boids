@@ -70,11 +70,12 @@ public class BoidController : MonoBehaviour
         }
     }
 
-    private Vector2 getMousePositionInLocal()
+    private Vector3 getMousePositionInLocal()
     {
         Vector3 worldPoint = getMousePositionInWorld();
         Vector3 localPosition = transform.InverseTransformVector(worldPoint);
-        localPosition.z = -5;
+        // TODO: Figure out why instantiating and setting this z offsets by the parent
+        localPosition.z = -8;
         return localPosition;
     }
 
@@ -83,10 +84,10 @@ public class BoidController : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    private void createNewBoid(Vector3 localPosition)
+    private void createNewBoid(Vector3 initialLocalPosition)
     {
         GameObject newBoid = Instantiate(boidsPrefab, transform);
-        newBoid.transform.position = localPosition;
+        newBoid.transform.position = initialLocalPosition;
         addToBoidList(newBoid.GetComponent<Boid>());
     }
 }
