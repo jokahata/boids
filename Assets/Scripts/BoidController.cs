@@ -34,7 +34,10 @@ public class BoidController : MonoBehaviour
         // TODO: Probably not a good idea to assume that all children are boids
         foreach (Transform child in transform)
         {
-            addToBoidList(child.GetComponent<Boid>());
+            if (child.gameObject.activeInHierarchy)
+            {
+                addToBoidList(child.GetComponent<Boid>());
+            }
         }
     }
 
