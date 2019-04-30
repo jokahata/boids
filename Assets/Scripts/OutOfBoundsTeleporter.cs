@@ -8,25 +8,53 @@ public class OutOfBoundsTeleporter : MonoBehaviour
     [SerializeField]
     private GameObject oppositeTeleporter;
 
-    private bool oppositeTeleporterIsOnRightSide;
+    private bool onLeftOrTop;
+    private bool isVertical;
 
     void Start()
     {
-        oppositeTeleporterIsOnRightSide = oppositeTeleporter.transform.position.x > transform.position.x;
+        float horizontalDifference = Mathf.Abs(oppositeTeleporter.transform.position.x - transform.position.x);
+        float verticalDifference = Mathf.Abs(oppositeTeleporter.transform.position.y - transform.position.y);
+        isVertical = verticalDifference > horizontalDifference;
+
+        if (isVertical)
+        {
+            onLeftOrTop = oppositeTeleporter.transform.position.y > transform.position.y;
+        }
+        else
+        {
+            onLeftOrTop = oppositeTeleporter.transform.position.x > transform.position.x;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        float newX = oppositeTeleporter.transform.position.x;
-        if (oppositeTeleporterIsOnRightSide)
+        if (isVertical)
         {
-            newX -= 2f;
+            float newY = oppositeTeleporter.transform.position.y;
+            if (onLeftOrTop)
+            {
+                newY -= 2f;
+            }
+            else
+            {
+                newY += 2f;
+            }
+
+            collider.attachedRigidbody.position = new Vector3(collider.transform.position.x, newY, collider.transform.position.z);
         }
         else
         {
-            newX += 2f;
+            float newX = oppositeTeleporter.transform.position.x;
+            if (onLeftOrTop)
+            {
+                newX -= 2f;
+            }
+            else
+            {
+                newX += 2f;
+            }
+            collider.attachedRigidbody.position = new Vector3(newX, collider.transform.position.y, collider.transform.position.z);
         }
-
-        collider.attachedRigidbody.position = new Vector3(newX, collider.transform.position.y, collider.transform.position.z);
     }
 }
